@@ -24,9 +24,10 @@ CREATE INDEX prod_idx ON products(prod_id);
 
 with foo as
 (
-SELECT sum(quantity) sum_quantity from orderlines
+SELECT sum(quantity) sum_quantity, prod_id  from orderlines
 group by orderlines.prod_id )
-SELECT prod_id,title, foo.sum_quantity from products,foo
+SELECT products.prod_id,title, foo.sum_quantity from products
+join foo on products.prod_id = foo.prod_id
 group by products.title,products.prod_id,foo.sum_quantity;
 DROP INDEX prod_idx ON products;
 --5
